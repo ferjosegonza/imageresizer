@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Image Resizer</title>
+    <link rel="stylesheet" type="text/css" href="assets/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
+    <script>
+        function validateFile() {
+            const fileInput = document.querySelector('input[type=file]');
+            const acceptedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const file = fileInput.files[0];
+            if (file && !acceptedTypes.includes(file.type)) {
+                alert('Invalid file type. Only JPEG, PNG, and GIF images are allowed.');
+                fileInput.value = '';
+                return false;
+            }
+            return true;
+        }
+
+        function checkFormValidity() {
+            const fileInput = document.querySelector('input[type=file]');
+            const radioButtons = document.querySelectorAll('input[type=radio]');
+            const submitButton = document.querySelector('button[type=submit]');
+
+            if (fileInput.files.length > 0 && Array.from(radioButtons).some(rb => rb.checked)) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        function resizeImages(event) {
+            event.preventDefault();
+            const fileInput = document.querySelector('input[type=file]');
+            const radioButtons = document.querySelectorAll('input[type=radio]:checked');
+
+            if (fileInput.files.length > 0 && radioButtons.length > 0) {
+                const namesValue = radioButtons[0].value;
+                const filePromises = [];
+
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    const file = fileInput.files[i];
+                    const fileReader = new FileReader();
+
+                    filePromises.push(
+                        new Promise((resolve, reject) => {
+                            fileReader.onload = function (event) {
+                                const img = new Image();
+
+                                img.onload = function () {
+                                    const canvas = document.createElement('canvas');
+                                    const ctx = canvas.getContext('2d');
+
+                                    const newWidth = img.width * 0.4;
+                                    const newHeight = img.height * 0.4;
+
+                                    canvas.width = newWidth;
+                                    canvas.height = newHeight;
+
+                                    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+                                    const resizedFile = dataURLtoFile(canvas.toDataURL('image/jpeg'), file.name);
+
+                                    resolve(resizedFile);
+                                };
+
+                                img.src = event.target.result;
+                            };
+
+                            fileReader.onerror = function (error) {
+                                reject(error);
+                            };
+
+                            fileReader.readAsDataURL(file);
+                        })
+                    );
+                }
+
+                Promise.all(filePromises)
+                    .then(resizedFiles => {
+                        const zip = new JSZip();
+
+                        for (let i = 0; i < resizedFiles.length; i++) {
+                            const file = resizedFiles[i];
+                            const filename = namesValue === 'keep' ? file.name : `${file.name} - ${i + 1}.jpg`;
+
+
+                            zip.file(filename, file);
+                        }
+
+                        zip.generateAsync({ type: 'blob' })
+                            .then(blob => {
+                                // Create a download link for the zip file
+                                const downloadLink = document.createElement('a');
+                                downloadLink.href = URL.createObjectURL(blob);
+                                downloadLink.download = 'reduced_images.zip';
+
+                                // Trigger the download link
+                                downloadLink.click();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+
+
+                                alert('An error occurred while generating the ZIP file.');
+                            });
+
+                        // Reset the form
+                        fileInput.value = '';
+                        checkFormValidity();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while resizing images.');
+                    });
+            }
+        }
+
+        function dataURLtoFile(dataURL, filename) {
+            const arr = dataURL.split(',');
+            const mime = arr[0].match(/:(.*?);/)[1];
+            const bstr = atob(arr[
+
+1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+
+            return new File([u8arr], filename, { type: mime });
+        }
+
+        document.addEventListener('DOMContentLoaded', checkFormValidity);
+    </script>
+</head>
+<body>
+<h1>Image Resizer!</h1>
+<h3>Great image quality and file size balance (around 10% of original size).</h3>
+<h3>Types of files admitted: JPEG, PNG, and GIF.</h3>
+<form method="post" enctype="multipart/form-data" onsubmit="return validateFile() && resizeImages(event)">
+
+
+    <input type="file" name="images[]" multiple accept="image/jpeg, image/png, image/gif" onchange="checkFormValidity()">
+    <label>What do you prefer?</label>
+    <label>
+        <input type="radio" name="names" value="keep" onchange="checkFormValidity()" checked>
+        keep the names, or...
+    </label>
+    <label>
+        <input type="radio" name="names" value="no-keep" onchange="checkFormValidity()">
+        ...add an index?
+    </label>
+    <button type="submit" disabled>Resize Images</button>
+</form>
+<div class="image-container"></div>
+</body>
+</html>
