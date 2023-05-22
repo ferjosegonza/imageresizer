@@ -97,11 +97,18 @@
 
                                 // Trigger the download link
                                 downloadLink.click();
+
+                                // Open the folder where the images were uploaded from
+                                const imageInput = document.querySelector('input[type=file]');
+                                const imageFiles = imageInput.files;
+                                if (imageFiles.length > 0) {
+                                    const firstImage = imageFiles[0];
+                                    const folderPath = firstImage.webkitRelativePath.substring(0, firstImage.webkitRelativePath.indexOf('/'));
+                                    window.open(folderPath, '_blank');
+                                }
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-
-
                                 alert('An error occurred while generating the ZIP file.');
                             });
 
