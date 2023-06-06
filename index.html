@@ -5,6 +5,8 @@
     <link rel="stylesheet" type="text/css" href="assets/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
     <script>
+        let selectedFolderPath = ''; // p/ almacenar la ruta desde donde se seleccionan las imágenes para reducir, p/ luego ofrecer la descarga en la misma carpeta
+
         function validateFile() {
             const fileInput = document.querySelector('input[type=file]');
             const acceptedTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -84,7 +86,6 @@
                             const file = resizedFiles[i];
                             const filename = namesValue === 'keep' ? file.name : `${file.name} - ${i + 1}.jpg`;
 
-
                             zip.file(filename, file);
                         }
 
@@ -99,12 +100,8 @@
                                 downloadLink.click();
 
                                 // Open the folder where the images were uploaded from
-                                const imageInput = document.querySelector('input[type=file]');
-                                const imageFiles = imageInput.files;
-                                if (imageFiles.length > 0) {
-                                    const firstImage = imageFiles[0];
-                                    const folderPath = firstImage.webkitRelativePath.substring(0, firstImage.webkitRelativePath.indexOf('/'));
-                                    window.open(folderPath, '_blank');
+                                if (selectedFolderPath) {
+                                    window.open(selectedFolderPath, '_blank');
                                 }
                             })
                             .catch(error => {
@@ -126,9 +123,7 @@
         function dataURLtoFile(dataURL, filename) {
             const arr = dataURL.split(',');
             const mime = arr[0].match(/:(.*?);/)[1];
-            const bstr = atob(arr[
-
-1]);
+            const bstr = atob(arr[1]);
             let n = bstr.length;
             const u8arr = new Uint8Array(n);
 
@@ -137,6 +132,16 @@
             }
 
             return new File([u8arr], filename, { type: mime });
+        }
+
+        function handleFileInputChange(event) {
+            const fileInput = event.target;
+            const imageFiles = fileInput.files;
+            if (imageFiles.length > 0) {
+                const firstImage = imageFiles[0];
+                selectedFolderPath = firstImage.webkitRelativePath.substring(0, firstImage.webkitRelativePath.indexOf('/'));
+            }
+            checkFormValidity();
         }
 
         document.addEventListener('DOMContentLoaded', checkFormValidity);
@@ -149,7 +154,7 @@
 <h3>Great image quality and file size balance (around 12% of the original size).</h3>
 <h3>Types of files admitted: JPEG, PNG, and GIF.</h3>
 <form method="post" enctype="multipart/form-data" onsubmit="return validateFile() && resizeImages(event)">
-    <input type="file" name="images[]" multiple accept="image/jpeg, image/png, image/gif" onchange="checkFormValidity()" lang="en" autofocus>
+    <input type="file" name="images[]" multiple accept="image/jpeg, image/png, image/gif" onchange="checkFormValidity(); handleFileInputChange(event)" lang="en" autofocus>
     <label>What do you prefer?</label>
     <label>
         <input type="radio" name="names" value="keep" onchange="checkFormValidity()" checked>
