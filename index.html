@@ -149,7 +149,7 @@
 <h3>Great image quality and file size balance (around 12% of the original size).</h3>
 <h3>Types of files admitted: JPEG, PNG, and GIF.</h3>
 <form method="post" enctype="multipart/form-data" onsubmit="return validateFile() && resizeImages(event)">
-    <input type="file" name="images[]" multiple accept="image/jpeg, image/png, image/gif" onchange="checkFormValidity()" lang="en">
+    <input type="file" name="images[]" multiple accept="image/jpeg, image/png, image/gif" onchange="checkFormValidity()" lang="en" autofocus>
     <label>What do you prefer?</label>
     <label>
         <input type="radio" name="names" value="keep" onchange="checkFormValidity()" checked>
