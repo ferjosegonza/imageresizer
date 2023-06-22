@@ -17,11 +17,15 @@
     <label>What do you prefer?</label>
     <label>
         <input type="radio" name="names" value="keep" onchange="checkFormValidity()" checked>
-        keep the names, or...
+        keep the names
     </label>
     <label>
-        <input type="radio" name="names" value="no-keep" onchange="checkFormValidity()">
-        ...names + an index?
+        <input type="radio" name="names" value="index" onchange="checkFormValidity()">
+        name + an index
+    </label>
+    <label>
+        <input type="radio" name="names" value="date" onchange="checkFormValidity()">
+        name + creation date
     </label>
     <button type="submit" disabled>Resize Images</button>
 </form>
