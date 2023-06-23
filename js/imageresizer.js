@@ -35,6 +35,13 @@ function resizeImages(event) {
 
         for (let i = 0; i < fileInput.files.length; i++) {
             const file = fileInput.files[i];
+            const fileDate = new Date(file.Date);
+            const filedateString = new Date(file.dateString);
+            const filelastModified = new Date(file.lastModified);
+            console.log("fileDate: "+fileDate);
+            console.log("filedateString: "+filedateString);
+            console.log("filelastModified: "+filelastModified);
+            
             const fileReader = new FileReader();
 
             filePromises.push(
