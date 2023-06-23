@@ -84,7 +84,9 @@ function resizeImages(event) {
                     } else if (namesValue === 'index') {
                         filename = `${file.name} - ${i + 1}.jpg`;
                     } else if (namesValue === 'date') {
-                        const currentDate 
+                        const currentDate = new Date();
+                        const dateString = file.date;
+                        filename = `${file.name} - ${dateString}.jpg`;
                     }
 
                     zip.file(filename, file);
