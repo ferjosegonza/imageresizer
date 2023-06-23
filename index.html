@@ -16,16 +16,16 @@
     <input type="file" name="images[]" multiple accept="image/jpeg, image/png, image/gif" onchange="checkFormValidity(); handleFileInputChange(event)" lang="en" autofocus>
     <label>What do you prefer?</label>
     <label>
-        <input type="radio" name="names" value="keep" onchange="checkFormValidity()" checked>
-        keep the names
+        <input type="radio" name="names" value="date" onchange="checkFormValidity()" checked>
+        same name + creation date
     </label>
     <label>
         <input type="radio" name="names" value="index" onchange="checkFormValidity()">
-        name + an index
+        same name + an index
     </label>
     <label>
-        <input type="radio" name="names" value="date" onchange="checkFormValidity()">
-        name + creation date
+        <input type="radio" name="names" value="keep" onchange="checkFormValidity()">
+        just keep the same names
     </label>
     <button type="submit" disabled>Resize Images</button>
 </form>
