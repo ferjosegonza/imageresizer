@@ -1,5 +1,5 @@
 let selectedFolderPath = ''; // p/ almacenar la ruta desde donde se seleccionan las imágenes para reducir, p/ luego ofrecer la descarga en la misma carpeta
-let dateString = "";
+let dateString;
 
 function validateFile() {
     const fileInput = document.querySelector('input[type=file]');
@@ -37,7 +37,8 @@ function resizeImages(event) {
         for (let i = 0; i < fileInput.files.length; i++) {
             const file = fileInput.files[i];
             const fileDate = new Date(file.lastModified);
-            file.date = "2023-02-03";
+            dateString = fileDate.toISOString().split('T'[0]);
+
             
             const fileReader = new FileReader();
 
@@ -81,15 +82,13 @@ function resizeImages(event) {
 
                 for (let i = 0; i < resizedFiles.length; i++) {
                     const file = resizedFiles[i];
-                    //const filename = namesValue === 'keep' ? file.name : `${file.name} - ${i + 1}.jpg`;
                     let filename;
+
                     if (namesValue === 'keep') {
                         filename = file.name;
                     } else if (namesValue === 'index') {
                         filename = `${file.name} - ${i + 1}.jpg`;
                     } else if (namesValue === 'date') {
-                        // const dateString = fileDate.toISOString().substring(0, 10);
-                        console.log(file.date);
                         filename = `${file.name} - ${dateString}.jpg`;
                     }
 
