@@ -35,12 +35,7 @@ function resizeImages(event) {
 
         for (let i = 0; i < fileInput.files.length; i++) {
             const file = fileInput.files[i];
-            const fileDate = new Date(file.Date);
-            const filedateString = new Date(file.dateString);
-            const filelastModified = new Date(file.lastModified);
-            console.log("fileDate: "+fileDate);
-            console.log("filedateString: "+filedateString);
-            console.log("filelastModified: "+filelastModified);
+            const fileDate = new Date(file.lastModified);
             
             const fileReader = new FileReader();
 
@@ -91,8 +86,7 @@ function resizeImages(event) {
                     } else if (namesValue === 'index') {
                         filename = `${file.name} - ${i + 1}.jpg`;
                     } else if (namesValue === 'date') {
-                        const currentDate = new Date();
-                        const dateString = file.date;
+                        const dateString = fileDate.toISOString().substring(0, 10);
                         filename = `${file.name} - ${dateString}.jpg`;
                     }
 
