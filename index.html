@@ -9,40 +9,42 @@
      <script type="text/javascript" language="javascript" src="js/imageresizer.js"></script>
 </head>
 <body>
-<h1>Image Resizer!</h1>
-<h3>Great image quality and file size balance (around 12% of the original size).</h3>
-<h3>Types of files admitted: JPEG, PNG, and GIF.</h3>
-<form method="post" enctype="multipart/form-data" onsubmit="return validateFile() && resizeImages(event)">
-    <input type="file" name="images[]" multiple accept="image/jpeg, image/png, image/gif" onchange="checkFormValidity(); handleFileInputChange(event)" lang="en" autofocus>
-    <label>What do you prefer?</label>
-    <label>
-        <input type="radio" name="names" value="date" onchange="checkFormValidity()" checked>
-        same name + creation date
-    </label>
-    <label>
-        <input type="radio" name="names" value="index" onchange="checkFormValidity()">
-        same name + an index
-    </label>
-    <label>
-        <input type="radio" name="names" value="keep" onchange="checkFormValidity()">
-        just keep the same names
-    </label>
-    <button type="submit" disabled>Resize Images</button>
-</form>
-<div class="image-container">
-    <img src="https://drive.google.com/uc?id=1GGCW3xKeJ326Tg9oeL3tPW1IasWzGkJt" alt="Tu imagen">
-</div>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2204003132702383"
-     crossorigin="anonymous"></script>
-<!-- anunciosGoogle -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-2204003132702383"
-     data-ad-slot="9626292477"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <div class="container">
+        <h1>Image Resizer!</h1>
+        <h3>Great image quality and file size balance (around 12% of the original size).</h3>
+        <h3>Types of files admitted: JPEG, PNG, and GIF.</h3>
+        <form method="post" enctype="multipart/form-data" onsubmit="return validateFile() && resizeImages(event)">
+            <input type="file" name="images[]" multiple accept="image/jpeg, image/png, image/gif" onchange="checkFormValidity(); handleFileInputChange(event)" lang="en" autofocus>
+            <label>What do you prefer?</label>
+            <label>
+                <input type="radio" name="names" value="date" onchange="checkFormValidity()" checked>
+                same name + creation date
+            </label>
+            <label>
+                <input type="radio" name="names" value="index" onchange="checkFormValidity()">
+                same name + an index
+            </label>
+            <label>
+                <input type="radio" name="names" value="keep" onchange="checkFormValidity()">
+                just keep the same names
+            </label>
+            <button type="submit" disabled>Resize Images</button>
+        </form>
+    </div>
+    <div class="image-container">
+        <img src="https://drive.google.com/uc?id=1GGCW3xKeJ326Tg9oeL3tPW1IasWzGkJt" alt="Tu imagen">
+    </div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2204003132702383"
+        crossorigin="anonymous"></script>
+    <!-- anunciosGoogle -->
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-2204003132702383"
+        data-ad-slot="9626292477"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </body>
 </html>
